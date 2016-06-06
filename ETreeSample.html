@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<script type="text/javascript" src="ETree.js"></script>
+	<script type="text/javascript" src="ETreeNode.js"></script>
+	<script type="text/javascript" src="ETreeNodeIconDrawer.js"></script>
+	
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Tree</title>
+	</head>
+	
+	<body>
+		<h1>Expansion Tree</h1>
+		
+		<script type="text/javascript">
+			 var tree = new ETree( document.body );
+			 
+			 var node1 = tree.appendChildNode( "A1" );
+			 node1.setType( "directory" );
+			 var node2 = tree.appendChildNode( "b1" );
+			 node2.setType( "directory" );
+			 var node3 = tree.appendChildNode( "C1" );
+			 node3.setType( "directory" );
+			 var node4 = tree.appendChildNode( "D1" );
+			 node4.setType( "directory" );
+			 
+			// tree.removeChildNode( node4 );
+			 
+			for( var i = 0; i < 5; ++i )
+			{
+				 var n = node1.appendChildNode( "A1-" + i );
+				 n.setType( "directory" );
+				 
+				 for( var k = 0; k < 5; ++k )
+				{
+					 var n1 = n.appendChildNode( "파일-" + k );
+					 n1.setType( "directory" );
+					 
+					 for( var k = 0; k < 5; ++k )
+						{
+							 var n12 = n1.appendChildNode( "파일-" + k );
+							 n12.setType( "file" );
+						}
+				}
+				 
+				 //n.remove();
+			}
+			for( var i = 0; i < 5; ++i )
+			{
+				 var n = node2.appendChildNode( "b1-" + i );
+				 n.setType( "file" );
+			}
+			for( var i = 0; i < 5; ++i )
+			{
+				var n = node3.appendChildNode( "C1-" + i );
+				n.setType( "file" );
+			}
+			for( var i = 0; i < 5; ++i )
+			{
+				 var n = node4.appendChildNode( "D1-" + i );
+				 n.setType( "file" );
+			}
+		</script>
+	</body>
+		
+</html>	
