@@ -19,28 +19,27 @@ ETree = function( _parent )
 		this.selectedNode.onUnSelect();
 		this.selectedNode = null;
 	};
-	
-	this.getChildNodeSize = function()
+};
+
+ETree.prototype = {
+	getChildNodeSize : function()
 	{
 		return this.childNodes.length();
-	};
-	
-	this.setSize = function( _w, _h )
+	},
+	setSize : function( _w, _h )
 	{
 		this.div.style.width = _w + "px";
 		this.div.style.height = _h + "px";
-	};
-	
-	this.setMaxWidth = function( _width )
+	},
+	setMaxWidth : function( _width )
 	{
 		if( this.maxWidth < _width )
 		{
 			this.maxWidth = _width;
 			this.div.style.minWidth = _width + "px";
 		}
-	};
-	
-	this.appendChildNode = function( _nodeName )
+	},
+	appendChildNode : function( _nodeName )
 	{
 		var node = new ETreeNode( this );
 		node.depth = 0;
@@ -52,14 +51,12 @@ ETree = function( _parent )
 		this.childNodes.push( node );
 		
 		return node;
-	};
-	
-	this.remove = function()
+	},
+	remove : function()
 	{
 		this.parent.removeChild( this.div );
-	};
-	
-	this.removeChildNode = function( _node )
+	},
+	removeChildNode : function( _node )
 	{
 		var index = this.childNodes.indexOf( _node );
 		if( index > -1 ) 
@@ -68,9 +65,8 @@ ETree = function( _parent )
 			this.div.removeChild( _node.div );
 			this.selectedNode = null;
 		}
-	};
-	
-	this.removeAllChildNode = function( _node )
+	},
+	removeAllChildNode : function( _node )
 	{
 		for( var n = 0; n < this.childNodes.length; ++n )
 		{
@@ -78,5 +74,5 @@ ETree = function( _parent )
 		}
 		
 		this.childNodes = new Array();
-	};
+	}
 };

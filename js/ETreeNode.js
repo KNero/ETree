@@ -140,38 +140,53 @@ ETreeNode = function( _parent )
 	{
 		
 	};
-	
-	this.setName = function( _name )
+};
+
+ETreeNode.prototype = {
+	setName : function( _name )
 	{
 		this.nameSpan.textContent = this.name;
-	};
-	
-	this.getName = function()
+	},
+	getName : function()
 	{
 		return this.nameSpan.textContent;
-	};
-	
-	this.open = function()
+	},
+	setType : function(_type)
 	{
-		if( self.childNodes.length > 0 )
+		var ctx = this.iconCtx;
+		var x = this.iconSize;
+		var y = 0;
+		var w = this.iconSize;
+		var h = this.iconSize;
+		
+		if( _type == "directory" )
 		{
-			ETreeNodeIconDrawer.onButtonIconMouseOut( self.iconCtx, 0, 0, self.iconSize, self.iconSize );
-			self.childDiv.hidden = false;
-			ETreeNodeIconDrawer.onOpen( self.iconCtx, 0, 0, self.iconSize, self.iconSize );
+			ETreeNodeIconDrawer.drawDirectory( ctx, x, y, w, h );
 		}
-	};
-	
-	this.close = function()
+		else if( _type == "file" )
+		{
+			ETreeNodeIconDrawer.drawFile( ctx, x, y, w, h, "RGB(30, 118, 203)" );
+		}
+	},
+	open : function()
 	{
-		if( self.childNodes.length > 0 )
+		if( this.childNodes.length > 0 )
 		{
-			ETreeNodeIconDrawer.onButtonIconMouseOut( self.iconCtx, 0, 0, self.iconSize, self.iconSize );
-			self.childDiv.hidden = true;
-			ETreeNodeIconDrawer.onClose( self.iconCtx, 0, 0, self.iconSize, self.iconSize );
+			ETreeNodeIconDrawer.onButtonIconMouseOut( this.iconCtx, 0, 0, this.iconSize, this.iconSize );
+			this.childDiv.hidden = false;
+			ETreeNodeIconDrawer.onOpen( this.iconCtx, 0, 0, this.iconSize, this.iconSize );
 		}
-	};
-	
-	this.appendChildNode = function( _nodeName )
+	},
+	close : function()
+	{
+		if( this.childNodes.length > 0 )
+		{
+			ETreeNodeIconDrawer.onButtonIconMouseOut( this.iconCtx, 0, 0, this.iconSize, this.iconSize );
+			this.childDiv.hidden = true;
+			ETreeNodeIconDrawer.onClose( this.iconCtx, 0, 0, this.iconSize, this.iconSize );
+		}
+	},
+	appendChildNode : function( _nodeName )
 	{
 		var node = new ETreeNode( this );
 		node.depth = this.depth + 1;
@@ -188,22 +203,21 @@ ETreeNode = function( _parent )
 		
 		if( this.childNodes.length > 0 )
 		{
-			ETreeNodeIconDrawer.onButtonIconMouseOut( self.iconCtx, 0, 0, self.iconSize, self.iconSize );
+			ETreeNodeIconDrawer.onButtonIconMouseOut( this.iconCtx, 0, 0, this.iconSize, this.iconSize );
 			
 			if( this.childDiv.hidden )
 			{
-				ETreeNodeIconDrawer.onClose( self.iconCtx, 0, 0, self.iconSize, self.iconSize );
+				ETreeNodeIconDrawer.onClose( this.iconCtx, 0, 0, this.iconSize, this.iconSize );
 			}
 			else
 			{
-				ETreeNodeIconDrawer.onOpen( self.iconCtx, 0, 0, self.iconSize, self.iconSize );
+				ETreeNodeIconDrawer.onOpen( this.iconCtx, 0, 0, this.iconSize, this.iconSize );
 			}
 		}
 		
 		return node;
-	};
-	
-	this.remove = function()
+	},
+	remove : function()
 	{
 		this.parentNode.removeChildNode( this );
 		
@@ -211,9 +225,8 @@ ETreeNode = function( _parent )
 		{
 			this.tree.selectedNode = null;
 		}
-	};
-	
-	this.removeChildNode = function( _node )
+	},
+	removeChildNode : function( _node )
 	{
 		var index = this.childNodes.indexOf( _node );
 		if( index > -1 ) 
@@ -226,9 +239,8 @@ ETreeNode = function( _parent )
 				this.iconCtx.clearRect( 0, 0, this.iconSize, this.iconSize );
 			}
 		}
-	};
-	
-	this.removeAllChildNode = function( _node )
+	},
+	removeAllChildNode : function( _node )
 	{
 		for( var n = 0; n < this.childNodes.length; ++n )
 		{
@@ -236,27 +248,8 @@ ETreeNode = function( _parent )
 		}
 		
 		this.childNodes = new Array();
-	};
-	
-	this.setType = function( _type )
-	{
-		var ctx = this.iconCtx;
-		var x = this.iconSize;
-		var y = 0;
-		var w = this.iconSize;
-		var h = this.iconSize;
-		
-		if( _type == "directory" )
-		{
-			ETreeNodeIconDrawer.drawDirectory( ctx, x, y, w, h );
-		}
-		else if( _type == "file" )
-		{
-			ETreeNodeIconDrawer.drawFile( ctx, x, y, w, h, "RGB(30, 118, 203)" );
-		}
-	};
-	
-	this.preventSelectText = function()
+	},
+	preventSelectText : function()
 	{
 		this.nameSpan.ondragstart = function()
 		{
@@ -273,6 +266,5 @@ ETreeNode = function( _parent )
 		this.iconSpan.onselectstart = this.nameSpan.ondragstart;
 		this.childDiv.ondragstart = this.nameSpan.ondragstart;
 		this.childDiv.onselectstart = this.nameSpan.ondragstart;
-		
-	};
+	}
 };
